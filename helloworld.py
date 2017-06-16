@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+import sys
 
 PORT_NUMBER = 8080
+LOG_NAME = 'helloworld.log'
+VERSION = '0.0'
+
+sys.stderr = open(LOG_NAME, 'w')
 
 #This class will handles any incoming request from
 #the browser
@@ -14,7 +19,7 @@ class myHandler(BaseHTTPRequestHandler):
 		self.send_header('Content-type','text/html')
 		self.end_headers()
 		# Send the html message
-		self.wfile.write("Hello World !")
+		self.wfile.write("Hello World ! (v%s)" % (VERSION))
 		return
 
 try:
