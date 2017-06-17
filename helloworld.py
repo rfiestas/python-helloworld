@@ -1,36 +1,17 @@
 #!/usr/bin/env python
-
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
-import sys
+from flask import Flask
+import logging
 
 PORT_NUMBER = 8080
 LOG_NAME = 'helloworld.log'
-VERSION = '0.2'
+VERSION = '1.0'
 
-sys.stderr = open(LOG_NAME, 'w')
+app = Flask(__name__)
 
-#This class will handles any incoming request from
-#the browser
+@app.route("/")
+def home():
+    return "Hello World! (V%s)" % (VERSION)
 
-class myHandler(BaseHTTPRequestHandler):
-	#Handler for the GET requests
-	def do_GET(self):
-		self.send_response(200)
-		self.send_header('Content-type','text/html')
-		self.end_headers()
-		# Send the html message
-		self.wfile.write("Hello World ! (v%s)" % (VERSION))
-		return
-
-try:
-	#Create a web server and define the handler to manage the
-	#incoming request
-	server = HTTPServer(('', PORT_NUMBER), myHandler)
-	print 'Started httpserver on port ' , PORT_NUMBER
-
-	#Wait forever for incoming htto requests
-	server.serve_forever()
-
-except KeyboardInterrupt:
-	print '^C received, shutting down the web server'
-	server.socket.close()
+if __name__ == '__main__':
+	logging.basicConfig(filename=LOG_NAME, level=logging.DEBUG)
+	app.run(host='0.0.0.0', port=PORT_NUMBER, debug=True)
