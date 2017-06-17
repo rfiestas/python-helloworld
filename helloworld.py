@@ -5,7 +5,7 @@ import sys
 
 PORT_NUMBER = 8080
 LOG_NAME = 'helloworld.log'
-VERSION = '0.0'
+VERSION = '0.2'
 
 sys.stderr = open(LOG_NAME, 'w')
 
